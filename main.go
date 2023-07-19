@@ -38,6 +38,7 @@ func main() {
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.HandleWelcome
+		r.Paths["clients"] = app.HandleClients
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 	}
