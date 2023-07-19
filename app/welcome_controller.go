@@ -1,11 +1,14 @@
-package router
+package app
 
 import (
 	"encoding/json"
+
 	"fmt"
+
+	"github.com/andrewarrow/feedback/router"
 )
 
-func handleWelcome(c *Context, second, third string) {
+func HandleWelcome(c *router.Context, second, third string) {
 	if second == "" && third == "" && c.Method == "GET" {
 		handleWelcomeIndex(c)
 		return
@@ -13,7 +16,7 @@ func handleWelcome(c *Context, second, third string) {
 	c.NotFound = true
 }
 
-func handleWelcomeIndex(c *Context) {
+func handleWelcomeIndex(c *router.Context) {
 	list := getData()
 
 	colAttributes := map[int]string{}
