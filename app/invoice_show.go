@@ -1,8 +1,34 @@
 package app
 
 import (
+	"net/http"
+
 	"github.com/andrewarrow/feedback/router"
 )
+
+func handleInvoiceShowPost(c *router.Context, guid string) {
+	c.ReadFormValuesIntoParams("submit")
+	invoice := c.One("invoice", "where guid=$1", guid)
+	list := invoice["items"].([]any)
+	item := map[string]any{"text": "test", "amount": 1000}
+	list = append(list, item)
+	c.Params["items"] = list
+	c.ValidateUpdate("invoice")
+	message := c.ValidateUpdate("invoice")
+	returnPath := "/sd/invoices/" + guid
+	if message != "" {
+		router.SetFlash(c, message)
+		http.Redirect(c.Writer, c.Request, returnPath, 302)
+		return
+	}
+	message = c.Update("invoice", "where guid=", guid)
+	if message != "" {
+		router.SetFlash(c, message)
+		http.Redirect(c.Writer, c.Request, returnPath, 302)
+		return
+	}
+	http.Redirect(c.Writer, c.Request, returnPath, 302)
+}
 
 func handleInvoiceShow(c *router.Context, guid string) {
 	invoice := c.One("invoice", "where guid=$1", guid)
