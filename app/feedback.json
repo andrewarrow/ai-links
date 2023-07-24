@@ -137,6 +137,34 @@
       ]
     },
     {
+      "name": "proposal",
+      "fields": [
+        {
+          "name": "user_id",
+          "flavor": "int",
+          "index": "yes"
+        },
+        {
+          "name": "items",
+          "flavor": "json_list"
+        },
+        {
+          "name": "total",
+          "flavor": "int"
+        }
+      ]
+    },
+    {
+      "name": "template",
+      "fields": [
+        {
+          "name": "user_id",
+          "flavor": "int",
+          "index": "yes"
+        }
+      ]
+    },
+    {
       "name": "cookie_token",
       "fields": [
         {

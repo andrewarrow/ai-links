@@ -40,6 +40,8 @@ func main() {
 		r.Paths["/"] = app.HandleWelcome
 		r.Paths["clients"] = app.HandleClients
 		r.Paths["invoices"] = app.HandleInvoices
+		r.Paths["proposals"] = app.HandleProposals
+		r.Paths["templates"] = app.HandleTemplates
 		r.Paths["sessions"] = app.HandleSessions
 		r.Paths["users"] = app.HandleUsers
 		r.Prefix = "sd"
