@@ -10,7 +10,12 @@
 
 {{ define "_invoice_col2" }}
 {{ $row := index . "row" }}
+{{ $guid := index $row "guid" }}
 {{ index $row "number" }}
+<br/>
+<a class="underline no-ajax text-blue-600" href="/sd/invoices/{{$guid}}?pdf=true">
+  pdf
+</a>
 {{ end }}
 
 {{ define "_invoice_col3" }}
@@ -23,7 +28,8 @@
 
 {{ define "_invoice_col4" }}
 {{ $row := index . "row" }}
-{{ index $row "total" }}
+{{ $total := index $row "total" }}
+{{ price $total }}
 {{ end }}
 
 {{ define "_invoice_col5" }}

@@ -39,6 +39,12 @@ func handleInvoiceShowPost(c *router.Context, guid string) {
 
 func handleInvoiceShow(c *router.Context, guid string) {
 	invoice := c.One("invoice", "where guid=$1", guid)
+	pdf := c.Request.URL.Query().Get("pdf")
+	if pdf == "true" {
+		generatePdf(c, invoice)
+		return
+	}
+
 	regexMap := map[string]string{}
 	cols, editable := GetCols(c, "invoice")
 	cols = append(cols, "save")
@@ -48,7 +54,7 @@ func handleInvoiceShow(c *router.Context, guid string) {
 	colAttributes[1] = "w-3/4"
 
 	m := map[string]any{}
-	headers := []string{"text", "amount"}
+	headers := []string{"text", "amount in pennies"}
 
 	list := invoice["items"].([]any)
 	newList := []any{}
