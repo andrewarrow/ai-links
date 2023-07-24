@@ -45,8 +45,8 @@ func handleClientShow(c *router.Context, guid string) {
 	client := c.One("client", "where guid=$1", guid)
 	regexMap := map[string]string{}
 	cols, editable := GetCols(c, "client")
-	cols = append(cols, "save")
-	editable["save"] = "save"
+	//cols = append(cols, "save")
+	//editable["save"] = "save"
 
 	colAttributes := map[int]string{}
 	colAttributes[1] = "w-3/4"
@@ -61,6 +61,7 @@ func handleClientShow(c *router.Context, guid string) {
 	m["headers"] = headers
 	m["cells"] = c.MakeCells(util.ToAny(cols), headers, params, "_client_show")
 	m["col_attributes"] = colAttributes
+	m["save"] = true
 	topVars := map[string]any{}
 	topVars["name"] = client["name"]
 	topVars["guid"] = guid

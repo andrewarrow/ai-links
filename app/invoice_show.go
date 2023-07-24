@@ -54,6 +54,7 @@ func handleInvoiceShow(c *router.Context, guid string) {
 	m["headers"] = headers
 	m["cells"] = c.MakeCells(list, headers, params, "_invoice_show")
 	m["col_attributes"] = colAttributes
+	m["save"] = true
 	topVars := map[string]any{}
 	topVars["name"] = invoice["name"]
 	topVars["guid"] = guid
