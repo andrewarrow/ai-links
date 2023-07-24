@@ -27,8 +27,11 @@ func handleInvoiceSave(c *router.Context, guid string) {
 		p = fmt.Sprintf("amount_%d", i)
 		amount := c.Params[p].(string)
 		amountInt, _ := strconv.Atoi(amount)
+		if amountInt == 0 {
+			continue
+		}
 		total += amountInt
-		item := map[string]any{"text": text, "amount": amount}
+		item := map[string]any{"text": text, "amount": amountInt}
 		items = append(items, item)
 	}
 	c.Params = map[string]any{}
