@@ -49,10 +49,10 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	pdf.Text(20, 75, fmt.Sprintf("Invoice Date: %s", date))
 
 	pdf.SetFont("helvetica", "B", 16)
-	pdf.Text(20, 85, "Invoice")
+	pdf.Text(20, 90, "Invoice")
 
 	cellWidth := 180
-	cellHeight := 175
+	cellHeight := 180
 	text := "Amount"
 	pdf.SetFont("helvetica", "B", 10)
 	pdf.CellFormat(float64(cellWidth),
@@ -65,6 +65,16 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	grayColor := 200
 	pdf.SetDrawColor(grayColor, grayColor, grayColor)
 	pdf.Line(20, 103, 20+lineWidth, 103+lineHeight)
+
+	pdf.SetFont("helvetica", "", 10)
+	items := invoice["items"].([]any)
+	for i, item := range items {
+		thing := item.(map[string]any)
+		text := fmt.Sprintf("%d. %s", i+1, thing["text"])
+		pdf.Text(20, 110+(float64(i)*5), text)
+		text = fmt.Sprintf("%f", thing["amount"])
+		pdf.Text(160, 110+(float64(i)*5), text)
+	}
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
