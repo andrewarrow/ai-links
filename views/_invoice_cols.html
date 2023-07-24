@@ -1,13 +1,17 @@
 
 {{ define "_invoice_col1" }}
 {{ $row := index . "row" }}
-{{ index $row "client_id" }}
+{{ $p := index . "params" }}
+{{ $clientMap := index $p "client_map" }}
+{{ $clientId := index $row "client_id" }}
+{{ $client := index $clientMap $clientId }}
+{{ index $client "name" }}
 {{ end }}
 
 {{ define "_invoice_col2" }}
 {{ $row := index . "row" }}
 {{ $json := index $row "items" }}
-{{ jq $json }}
+{{ $json }}
 {{ end }}
 
 {{ define "_invoice_col3" }}

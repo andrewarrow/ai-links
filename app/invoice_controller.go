@@ -26,6 +26,11 @@ func HandleInvoices(c *router.Context, second, third string) {
 
 func handleInvoiceIndex(c *router.Context) {
 	list := c.All("invoice", "order by created_at desc", "")
+	clientIds := []any{}
+	for _, item := range list {
+		clientIds = append(clientIds, item["client_id"])
+	}
+	clientMap := c.WhereIn("client", clientIds)
 
 	colAttributes := map[int]string{}
 	//colAttributes[0] = "w-1/2"
@@ -34,6 +39,7 @@ func handleInvoiceIndex(c *router.Context) {
 	headers := []string{"client", "items", "total", "created"}
 
 	params := map[string]any{}
+	params["client_map"] = clientMap
 	m["headers"] = headers
 	m["cells"] = c.MakeCells(util.ToAnyArray(list), headers, params, "_invoice")
 	m["col_attributes"] = colAttributes
