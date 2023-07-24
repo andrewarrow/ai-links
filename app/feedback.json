@@ -109,6 +109,24 @@
       ]
     },
     {
+      "name": "invoice",
+      "fields": [
+        {
+          "name": "client_id",
+          "flavor": "int",
+          "index": "yes"
+        },
+        {
+          "name": "items",
+          "flavor": "json_list"
+        },
+        {
+          "name": "total",
+          "flavor": "int"
+        }
+      ]
+    },
+    {
       "name": "cookie_token",
       "fields": [
         {

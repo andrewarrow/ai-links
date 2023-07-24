@@ -1,9 +1,7 @@
 package app
 
 import (
-	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/andrewarrow/feedback/router"
 )
@@ -13,14 +11,14 @@ func handleInvoiceCreate(c *router.Context, guid string) {
 
 	returnPath := "/sd/invoices"
 
-	now := time.Now().Unix()
+	item := map[string]any{"text": "test", "amount": 1000}
+	items := []map[string]any{item}
+
+	client := c.One("client", "where guid=$1", guid)
 	c.Params = map[string]any{}
-	c.Params["name"] = fmt.Sprintf("Untitled %d", now)
-	c.Params["street1"] = "123 Main St."
-	c.Params["city"] = "Los Angeles"
-	c.Params["state"] = "CA"
-	c.Params["zip"] = "90066"
-	c.Params["country"] = "USA"
+	c.Params["client_id"] = client["id"]
+	c.Params["total"] = 1000
+	c.Params["items"] = items
 	message := c.ValidateCreate("invoice")
 	if message != "" {
 		router.SetFlash(c, message)
