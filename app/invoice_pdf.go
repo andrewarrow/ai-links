@@ -68,13 +68,20 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 
 	pdf.SetFont("helvetica", "", 10)
 	items := invoice["items"].([]any)
+	height := 110.0
 	for i, item := range items {
 		thing := item.(map[string]any)
 		text := fmt.Sprintf("%d. %s", i+1, thing["text"])
 		pdf.Text(20, 110+(float64(i)*5), text)
 		text = Money(thing["amount"].(float64))
 		pdf.Text(170, 110+(float64(i)*5), text)
+		height += float64(i) * 5
 	}
+
+	pdf.Line(20, height, 20+lineWidth, height+lineHeight)
+	total := invoice["total"].(int64)
+	text = "Total: " + Money(float64(total))
+	pdf.Text(170, height+10, text)
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
