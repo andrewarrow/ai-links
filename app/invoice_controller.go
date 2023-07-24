@@ -14,7 +14,7 @@ func HandleInvoices(c *router.Context, second, third string) {
 		return
 	}
 	if second != "" && third == "" && c.Method == "GET" {
-		//handleInvoiceShow(c, second)
+		handleInvoiceShow(c, second)
 		return
 	}
 	if second != "" && third == "" && c.Method == "POST" {

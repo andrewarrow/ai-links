@@ -10,8 +10,10 @@
 
 {{ define "_invoice_col2" }}
 {{ $row := index . "row" }}
-{{ $json := index $row "items" }}
-{{ $json }}
+{{ $guid := index $row "guid" }}
+<a class="underline" href="/sd/invoices/{{$guid}}">
+        click to view/edit
+</a>
 {{ end }}
 
 {{ define "_invoice_col3" }}

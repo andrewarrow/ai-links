@@ -23,7 +23,7 @@ func handleProposalIndex(c *router.Context) {
 	//colAttributes[0] = "w-1/2"
 
 	m := map[string]any{}
-	headers := []string{"client", "items", "total", "created"}
+	headers := []string{"proposals coming soon..."}
 
 	params := map[string]any{}
 	m["headers"] = headers
