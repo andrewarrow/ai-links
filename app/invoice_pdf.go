@@ -79,8 +79,10 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 		text := fmt.Sprintf("%d. %s", i+1, thing["text"])
 		pdf.Text(20, 110+(float64(i)*5), text)
 		text = Money(thing["amount"].(float64))
-		pdf.Text(170, 110+(float64(i)*5), text)
-		//pdf.CellFormat(180, float64(i)*-10, text, "", 1, "R", false, 0, "")
+		//pdf.Text(170, 110+(float64(i)*5), text)
+		initialX, initialY := pdf.GetXY()
+		pdf.CellFormat(180, 200+(float64(i)*9), text, "", 1, "R", false, 0, "")
+		pdf.SetXY(initialX, initialY)
 		height += float64(i) * 5
 	}
 
