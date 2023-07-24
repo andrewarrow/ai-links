@@ -23,7 +23,15 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 
 	client := c.One("client", "where id=$1", clientId)
 	name := client["name"].(string)
+	street1 := client["street1"].(string)
+	city := client["city"].(string)
+	state := client["state"].(string)
+	zip := client["zip"].(string)
+	country := client["country"].(string)
 	pdf.Text(20, 40, name)
+	pdf.Text(20, 45, street1)
+	pdf.Text(20, 50, city+", "+state+" "+zip)
+	pdf.Text(20, 55, country)
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
