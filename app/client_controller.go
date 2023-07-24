@@ -21,6 +21,10 @@ func HandleClients(c *router.Context, second, third string) {
 		handleClientShow(c, second)
 		return
 	}
+	if second != "" && third == "" && c.Method == "POST" {
+		handleClientShowPost(c, second)
+		return
+	}
 	c.NotFound = true
 }
 

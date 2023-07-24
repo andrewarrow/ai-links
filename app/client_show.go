@@ -4,30 +4,45 @@ import (
 	"net/http"
 
 	"github.com/andrewarrow/feedback/router"
+	"github.com/andrewarrow/feedback/util"
 )
 
-func handleClientShowPost(c *router.Context, id string) {
-	list := []string{}
-	list = append(list, "submit")
-	c.ReadFormValuesIntoParams(list...)
-	submit := c.Params["submit"].(string)
-	if submit != "save" {
-		//handleClientAddNew(c, id)
-		return
+func GetCols(c *router.Context, modelString string) ([]string, map[string]string) {
+	model := c.FindModel(modelString)
+	cols := []string{}
+	editable := map[string]string{}
+	for _, f := range model.Fields {
+		if f.Flavor == "editable" {
+			editable[f.Name] = "string"
+		}
+		cols = append(cols, f.Name)
 	}
+	return cols, editable
+}
+
+func handleClientShowPost(c *router.Context, guid string) {
+	cols, editable := GetCols(c, "client")
+	list := []string{}
+	for _, item := range cols {
+		if router.IsEditable(item, editable) == false {
+			continue
+		}
+		list = append(list, item)
+	}
+	c.ReadFormValuesIntoParams(list...)
 
 	c.ValidateUpdate("client")
 	message := c.ValidateUpdate("client")
 	returnPath := "/sd/clients"
 	if message != "" {
 		router.SetFlash(c, message)
-		http.Redirect(c.Writer, c.Request, returnPath+"/"+id, 302)
+		http.Redirect(c.Writer, c.Request, returnPath+"/"+guid, 302)
 		return
 	}
-	message = c.Update("client", "where id=", id)
+	message = c.Update("client", "where guid=", guid)
 	if message != "" {
 		router.SetFlash(c, message)
-		http.Redirect(c.Writer, c.Request, returnPath+"/"+id, 302)
+		http.Redirect(c.Writer, c.Request, returnPath+"/"+guid, 302)
 		return
 	}
 	http.Redirect(c.Writer, c.Request, returnPath, 302)
@@ -35,13 +50,10 @@ func handleClientShowPost(c *router.Context, id string) {
 
 func handleClientShow(c *router.Context, guid string) {
 	client := c.One("client", "where guid=$1", guid)
-	model := c.FindModel("client")
 	regexMap := map[string]string{}
-	cols := []any{}
-	for _, f := range model.Fields {
-		regexMap[f.Name] = f.Regex
-		cols = append(cols, f.Name)
-	}
+	cols, editable := GetCols(c, "client")
+	cols = append(cols, "save")
+	editable["save"] = "save"
 
 	colAttributes := map[int]string{}
 	colAttributes[1] = "w-3/4"
@@ -51,10 +63,10 @@ func handleClientShow(c *router.Context, guid string) {
 
 	params := map[string]any{}
 	params["item"] = client
-	params["editable"] = map[string]string{}
+	params["editable"] = editable
 	params["regex_map"] = regexMap
 	m["headers"] = headers
-	m["cells"] = c.MakeCells(cols, headers, params, "_client_show")
+	m["cells"] = c.MakeCells(util.ToAny(cols), headers, params, "_client_show")
 	m["col_attributes"] = colAttributes
 	topVars := map[string]any{}
 	topVars["name"] = client["name"]

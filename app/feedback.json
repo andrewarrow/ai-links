@@ -80,31 +80,31 @@
       "fields": [
         {
           "name": "name",
-          "flavor": "name"
+          "flavor": "editable"
         },
         {
           "name": "country",
-          "flavor": "oneWord"
+          "flavor": "editable"
         },
         {
           "name": "street1",
-          "flavor": "oneWord"
+          "flavor": "editable"
         },
         {
           "name": "street2",
-          "flavor": "oneWord"
+          "flavor": "editable"
         },
         {
           "name": "city",
-          "flavor": "oneWord"
+          "flavor": "editable"
         },
         {
           "name": "state",
-          "flavor": "oneWord"
+          "flavor": "editable"
         },
         {
           "name": "zip",
-          "flavor": "oneWord"
+          "flavor": "editable"
         }
       ]
     },
