@@ -2,7 +2,6 @@ package app
 
 import (
 	"github.com/andrewarrow/feedback/router"
-	"github.com/andrewarrow/feedback/util"
 )
 
 func handleInvoiceShow(c *router.Context, guid string) {
@@ -16,14 +15,16 @@ func handleInvoiceShow(c *router.Context, guid string) {
 	colAttributes[1] = "w-3/4"
 
 	m := map[string]any{}
-	headers := []string{"field", "value"}
+	headers := []string{"text", "amount"}
+
+	list := invoice["items"].([]any)
 
 	params := map[string]any{}
 	params["item"] = invoice
 	params["editable"] = editable
 	params["regex_map"] = regexMap
 	m["headers"] = headers
-	m["cells"] = c.MakeCells(util.ToAny(cols), headers, params, "_invoice_show")
+	m["cells"] = c.MakeCells(list, headers, params, "_invoice_show")
 	m["col_attributes"] = colAttributes
 	topVars := map[string]any{}
 	topVars["name"] = invoice["name"]

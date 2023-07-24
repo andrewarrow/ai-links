@@ -1,0 +1,13 @@
+
+{{ define "_invoice_show_col1" }}
+{{ $row := index . "row" }}
+{{ index $row "text" }}
+{{ end }}
+
+{{ define "_invoice_show_col2" }}
+
+{{ $row := index . "row" }}
+{{ index $row "amount" }}
+
+{{ end }}
+
