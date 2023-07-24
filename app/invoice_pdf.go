@@ -72,8 +72,8 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 		thing := item.(map[string]any)
 		text := fmt.Sprintf("%d. %s", i+1, thing["text"])
 		pdf.Text(20, 110+(float64(i)*5), text)
-		text = fmt.Sprintf("%f", thing["amount"])
-		pdf.Text(160, 110+(float64(i)*5), text)
+		text = Money(thing["amount"].(float64))
+		pdf.Text(170, 110+(float64(i)*5), text)
 	}
 
 	var buffer bytes.Buffer
@@ -82,4 +82,16 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	contentType := "application/pdf"
 	c.Writer.Header().Set("Content-Type", contentType)
 	c.Writer.Write(buffer.Bytes())
+}
+
+func Money(a float64) string {
+	amount := fmt.Sprintf("%d", int64(a))
+	if len(amount) < 3 {
+		s := fmt.Sprintf("$00.%s USD", amount)
+		return s
+	}
+	dollars := amount[0 : len(amount)-2]
+	cents := amount[len(amount)-2:]
+	s := fmt.Sprintf("$%s.%s USD", dollars, cents)
+	return s
 }
