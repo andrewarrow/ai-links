@@ -13,6 +13,14 @@ func HandleTemplates(c *router.Context, second, third string) {
 		handleTemplateIndex(c)
 		return
 	}
+	if second != "" && third == "" && c.Method == "GET" {
+		handleTemplateShow(c, second)
+		return
+	}
+	if second != "" && third == "" && c.Method == "POST" {
+		handleTemplateShowPost(c, second)
+		return
+	}
 	c.NotFound = true
 }
 
@@ -23,7 +31,7 @@ func handleTemplateIndex(c *router.Context) {
 	//colAttributes[0] = "w-1/2"
 
 	m := map[string]any{}
-	headers := []string{"templates coming soon..."}
+	headers := []string{"flavor", "text", "created"}
 
 	params := map[string]any{}
 	m["headers"] = headers
