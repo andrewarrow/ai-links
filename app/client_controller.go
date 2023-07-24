@@ -13,6 +13,10 @@ func HandleClients(c *router.Context, second, third string) {
 		handleClientIndex(c)
 		return
 	}
+	if second == "" && third == "" && c.Method == "POST" {
+		handleClientCreate(c)
+		return
+	}
 	c.NotFound = true
 }
 
@@ -23,7 +27,7 @@ func handleClientIndex(c *router.Context) {
 	//colAttributes[0] = "w-1/2"
 
 	m := map[string]any{}
-	headers := []string{"name", "created"}
+	headers := []string{"name", "street", "city/state/zip", "created"}
 
 	params := map[string]any{}
 	m["headers"] = headers
