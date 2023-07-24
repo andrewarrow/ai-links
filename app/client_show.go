@@ -7,19 +7,6 @@ import (
 	"github.com/andrewarrow/feedback/util"
 )
 
-func GetCols(c *router.Context, modelString string) ([]string, map[string]string) {
-	model := c.FindModel(modelString)
-	cols := []string{}
-	editable := map[string]string{}
-	for _, f := range model.Fields {
-		if f.Flavor == "editable" {
-			editable[f.Name] = "string"
-		}
-		cols = append(cols, f.Name)
-	}
-	return cols, editable
-}
-
 func handleClientShowPost(c *router.Context, guid string) {
 	cols, editable := GetCols(c, "client")
 	list := []string{}
@@ -29,7 +16,13 @@ func handleClientShowPost(c *router.Context, guid string) {
 		}
 		list = append(list, item)
 	}
+	list = append(list, "submit")
 	c.ReadFormValuesIntoParams(list...)
+	submit := c.Params["submit"].(string)
+	if submit != "save" {
+		handleInvoiceCreate(c, guid)
+		return
+	}
 
 	c.ValidateUpdate("client")
 	message := c.ValidateUpdate("client")
