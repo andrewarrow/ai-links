@@ -17,6 +17,10 @@ func HandleClients(c *router.Context, second, third string) {
 		handleClientCreate(c)
 		return
 	}
+	if second != "" && third == "" && c.Method == "GET" {
+		handleClientShow(c, second)
+		return
+	}
 	c.NotFound = true
 }
 

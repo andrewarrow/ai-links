@@ -1,0 +1,12 @@
+
+{{ define "_client_show_col1" }}
+{{ $row := index . "row" }}
+{{ $row }}
+{{ end }}
+
+{{ define "_client_show_col2" }}
+
+{{ template "_editable_fields" . }}
+
+{{ end }}
+

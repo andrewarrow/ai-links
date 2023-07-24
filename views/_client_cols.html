@@ -1,8 +1,8 @@
 
 {{ define "_client_col1" }}
 {{ $row := index . "row" }}
-{{ $id := index $row "id" }}
-<a href="/sd/clients/{{$id}}" class="underline">
+{{ $guid := index $row "guid" }}
+<a href="/sd/clients/{{$guid}}" class="underline">
 {{ index $row "name" }}
 </a>
 {{ end }}
