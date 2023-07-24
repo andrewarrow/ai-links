@@ -15,6 +15,7 @@ func handleClientCreate(c *router.Context) {
 
 	now := time.Now().Unix()
 	c.Params = map[string]any{}
+	c.Params["user_id"] = c.User["id"]
 	c.Params["name"] = fmt.Sprintf("Untitled %d", now)
 	c.Params["street1"] = "123 Main St."
 	c.Params["city"] = "Los Angeles"

@@ -29,7 +29,7 @@ func HandleClients(c *router.Context, second, third string) {
 }
 
 func handleClientIndex(c *router.Context) {
-	list := c.All("client", "order by created_at desc", "")
+	list := c.All("client", "where user_id=$1 order by created_at desc", "", c.User["id"])
 
 	colAttributes := map[int]string{}
 	//colAttributes[0] = "w-1/2"

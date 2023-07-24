@@ -16,6 +16,7 @@ func handleInvoiceCreate(c *router.Context, guid string) {
 
 	client := c.One("client", "where guid=$1", guid)
 	c.Params = map[string]any{}
+	c.Params["user_id"] = c.User["id"]
 	c.Params["client_id"] = client["id"]
 	c.Params["total"] = 1000
 	c.Params["items"] = items

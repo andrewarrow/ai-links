@@ -79,6 +79,11 @@
       "name": "client",
       "fields": [
         {
+          "name": "user_id",
+          "flavor": "int",
+          "index": "yes"
+        },
+        {
           "name": "name",
           "flavor": "editable"
         },
@@ -113,6 +118,11 @@
       "fields": [
         {
           "name": "client_id",
+          "flavor": "int",
+          "index": "yes"
+        },
+        {
+          "name": "user_id",
           "flavor": "int",
           "index": "yes"
         },

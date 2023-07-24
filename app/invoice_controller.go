@@ -25,7 +25,7 @@ func HandleInvoices(c *router.Context, second, third string) {
 }
 
 func handleInvoiceIndex(c *router.Context) {
-	list := c.All("invoice", "order by created_at desc", "")
+	list := c.All("invoice", "where user_id=$1 order by created_at desc", "", c.User["id"])
 	clientIds := []any{}
 	for _, item := range list {
 		clientIds = append(clientIds, item["client_id"])
