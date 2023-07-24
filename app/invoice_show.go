@@ -10,9 +10,11 @@ func handleInvoiceShowPost(c *router.Context, guid string) {
 	c.ReadFormValuesIntoParams("submit")
 	invoice := c.One("invoice", "where guid=$1", guid)
 	list := invoice["items"].([]any)
+	total := invoice["total"].(int64)
 	item := map[string]any{"text": "test", "amount": 1000}
 	list = append(list, item)
 	c.Params["items"] = list
+	c.Params["total"] = total + 1000
 	c.ValidateUpdate("invoice")
 	message := c.ValidateUpdate("invoice")
 	returnPath := "/sd/invoices/" + guid
