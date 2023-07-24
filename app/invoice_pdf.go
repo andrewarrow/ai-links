@@ -83,13 +83,18 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 		initialX, initialY := pdf.GetXY()
 		pdf.CellFormat(180, 200+(float64(i)*9), text, "", 1, "R", false, 0, "")
 		pdf.SetXY(initialX, initialY)
-		height += float64(i) * 5
+		height += float64(i) * 1.5812
 	}
 
-	pdf.Line(20, height-2, 20+lineWidth, height+lineHeight-2)
+	pdf.Line(20, height, 20+lineWidth, height+lineHeight)
 	total := invoice["total"].(int64)
 	text = "Total: " + Money(float64(total))
-	pdf.CellFormat(180, height+116, text, "", 1, "R", false, 0, "")
+	initialX, initialY = pdf.GetXY()
+	pdf.CellFormat(180, height+19.5, text, "", 1, "R", false, 0, "")
+	pdf.SetXY(initialX, initialY)
+	pdf.Text(20, height+23, "Please pay within 7 days of receiving the invoice.")
+	pdf.SetFont("helvetica", "B", 10)
+	pdf.Text(20, height+30, text)
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
