@@ -42,10 +42,18 @@ func handleCreateUser(c *router.Context) {
 
 	row := c.SelectOne("user", "where username=$1", []any{c.Params["username"]})
 	guid := util.PseudoUuid()
-	c.Params = map[string]any{"guid": guid, "user_id": row["id"].(int64)}
+	c.Params = map[string]any{"guid": guid, "user_id": row["id"]}
 	c.Insert("cookie_token")
 	router.SetUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
 	returnPath = "/" + c.Router.Prefix
+
+	header := "Your Name 123 Main St. Los Angeles, CA 90066 USA"
+	guid = util.PseudoUuid()
+	c.Params = map[string]any{"guid": guid,
+		"user_id": row["id"],
+		"flavor":  "header",
+		"text":    header}
+	c.Insert("template")
 
 	http.Redirect(c.Writer, c.Request, returnPath, 302)
 	return
