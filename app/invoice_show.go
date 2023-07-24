@@ -8,6 +8,11 @@ import (
 
 func handleInvoiceShowPost(c *router.Context, guid string) {
 	c.ReadFormValuesIntoParams("submit")
+	submit := c.Params["submit"].(string)
+	if submit == "save" {
+		handleInvoiceSave(c, guid)
+		return
+	}
 	invoice := c.One("invoice", "where guid=$1", guid)
 	list := invoice["items"].([]any)
 	total := invoice["total"].(int64)
