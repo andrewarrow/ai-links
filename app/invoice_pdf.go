@@ -2,6 +2,8 @@ package app
 
 import (
 	"bytes"
+	"fmt"
+	"strings"
 
 	"github.com/andrewarrow/feedback/router"
 	"github.com/jung-kurt/gofpdf"
@@ -32,6 +34,13 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	pdf.Text(20, 45, street1)
 	pdf.Text(20, 50, city+", "+state+" "+zip)
 	pdf.Text(20, 55, country)
+
+	clientGuid := client["guid"].(string)
+	number := invoice["number"].(int64)
+	tokens := strings.Split(clientGuid, "-")
+	clientPrintId := strings.ToUpper(tokens[0])
+	pdf.Text(20, 65, "Client ID: "+clientPrintId)
+	pdf.Text(20, 70, fmt.Sprintf("Invoice ID: %d", number))
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
