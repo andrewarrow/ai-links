@@ -10,18 +10,23 @@
 
 {{ define "_invoice_col2" }}
 {{ $row := index . "row" }}
+{{ index $row "number" }}
+{{ end }}
+
+{{ define "_invoice_col3" }}
+{{ $row := index . "row" }}
 {{ $guid := index $row "guid" }}
 <a class="underline" href="/sd/invoices/{{$guid}}">
         click to view/edit
 </a>
 {{ end }}
 
-{{ define "_invoice_col3" }}
+{{ define "_invoice_col4" }}
 {{ $row := index . "row" }}
 {{ index $row "total" }}
 {{ end }}
 
-{{ define "_invoice_col4" }}
+{{ define "_invoice_col5" }}
 {{ $row := index . "row" }}
 {{ index $row "created_at_human" }}
 <br/>
