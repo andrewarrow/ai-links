@@ -81,7 +81,7 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	pdf.Line(20, height, 20+lineWidth, height+lineHeight)
 	total := invoice["total"].(int64)
 	text = "Total: " + Money(float64(total))
-	pdf.Text(170, height+10, text)
+	pdf.CellFormat(180, (-1*height)+10, text, "", 1, "R", false, 0, "")
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
