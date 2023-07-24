@@ -60,6 +60,12 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 
 	pdf.Text(20, 100, "# Description")
 
+	lineWidth := 170.0
+	lineHeight := 1.0
+	grayColor := 200
+	pdf.SetDrawColor(grayColor, grayColor, grayColor)
+	pdf.Line(20, 103, 20+lineWidth, 103+lineHeight)
+
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
 
