@@ -55,8 +55,13 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	cellHeight := 180
 	text := "Amount"
 	pdf.SetFont("helvetica", "B", 10)
+
+	initialX, initialY := pdf.GetXY()
+
 	pdf.CellFormat(float64(cellWidth),
 		float64(cellHeight), text, "", 1, "R", false, 0, "")
+
+	pdf.SetXY(initialX, initialY)
 
 	pdf.Text(20, 100, "# Description")
 
@@ -74,15 +79,15 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 		text := fmt.Sprintf("%d. %s", i+1, thing["text"])
 		pdf.Text(20, 110+(float64(i)*5), text)
 		text = Money(thing["amount"].(float64))
-		//pdf.Text(170, 110+(float64(i)*5), text)
-		pdf.CellFormat(180, (-1 * height), text, "", 1, "R", false, 0, "")
+		pdf.Text(170, 110+(float64(i)*5), text)
+		//pdf.CellFormat(180, float64(i)*-10, text, "", 1, "R", false, 0, "")
 		height += float64(i) * 5
 	}
 
-	pdf.Line(20, height, 20+lineWidth, height+lineHeight)
+	pdf.Line(20, height-2, 20+lineWidth, height+lineHeight-2)
 	total := invoice["total"].(int64)
 	text = "Total: " + Money(float64(total))
-	pdf.CellFormat(180, (-1*height)+10, text, "", 1, "R", false, 0, "")
+	pdf.CellFormat(180, height+116, text, "", 1, "R", false, 0, "")
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
