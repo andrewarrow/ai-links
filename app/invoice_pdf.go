@@ -4,10 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/andrewarrow/feedback/router"
 	"github.com/jung-kurt/gofpdf"
 )
+
+const SMALL_DATE = "January 2, 2006"
 
 func generatePdf(c *router.Context, invoice map[string]any) {
 	pdf := gofpdf.New("P", "mm", "A4", "")
@@ -37,10 +40,13 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 
 	clientGuid := client["guid"].(string)
 	number := invoice["number"].(int64)
+	updatedAt := invoice["updated_at"].(int64)
+	date := time.Unix(updatedAt, 0).Format(SMALL_DATE)
 	tokens := strings.Split(clientGuid, "-")
 	clientPrintId := strings.ToUpper(tokens[0])
 	pdf.Text(20, 65, "Client ID: "+clientPrintId)
 	pdf.Text(20, 70, fmt.Sprintf("Invoice ID: %d", number))
+	pdf.Text(20, 75, fmt.Sprintf("Invoice Date: %s", date))
 
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
