@@ -6,6 +6,9 @@ import (
 )
 
 func HandleClients(c *router.Context, second, third string) {
+	if NotLoggedIn(c) {
+		return
+	}
 	if second == "" && third == "" && c.Method == "GET" {
 		handleClientIndex(c)
 		return
