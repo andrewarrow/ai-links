@@ -76,6 +76,39 @@
       ]
     },
     {
+      "name": "client",
+      "fields": [
+        {
+          "name": "name",
+          "flavor": "name"
+        },
+        {
+          "name": "country",
+          "flavor": "oneWord"
+        },
+        {
+          "name": "street1",
+          "flavor": "oneWord"
+        },
+        {
+          "name": "street2",
+          "flavor": "oneWord"
+        },
+        {
+          "name": "city",
+          "flavor": "oneWord"
+        },
+        {
+          "name": "state",
+          "flavor": "oneWord"
+        },
+        {
+          "name": "zip",
+          "flavor": "oneWord"
+        }
+      ]
+    },
+    {
       "name": "cookie_token",
       "fields": [
         {

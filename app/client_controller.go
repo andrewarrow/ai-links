@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/andrewarrow/feedback/router"
+	"github.com/andrewarrow/feedback/util"
 )
 
 func HandleClients(c *router.Context, second, third string) {
@@ -13,7 +14,7 @@ func HandleClients(c *router.Context, second, third string) {
 }
 
 func handleClientIndex(c *router.Context) {
-	list := getData()
+	list := c.All("client", "order by created_at desc", "")
 
 	colAttributes := map[int]string{}
 	colAttributes[0] = "w-1/2"
@@ -23,7 +24,7 @@ func handleClientIndex(c *router.Context) {
 
 	params := map[string]any{}
 	m["headers"] = headers
-	m["cells"] = c.MakeCells(list, headers, params, "_welcome")
+	m["cells"] = c.MakeCells(util.ToAnyArray(list), headers, params, "_client")
 	m["col_attributes"] = colAttributes
 
 	send := map[string]any{}

@@ -32,7 +32,7 @@ func handleWelcomeIndex(c *router.Context) {
 
 	send := map[string]any{}
 	send["bottom"] = c.Template("table_show.html", m)
-	c.SendContentInLayout("generic_top_bottom.html", send, 200)
+	c.SendContentInLayout("welcome.html", send, 200)
 }
 
 func getData() []any {
