@@ -39,6 +39,9 @@ func main() {
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.HandleWelcome
 		r.Paths["clients"] = app.HandleClients
+		r.Paths["sessions"] = app.HandleSessions
+		r.Paths["users"] = app.HandleUsers
+		r.Prefix = "sd"
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 	}
