@@ -1,13 +1,14 @@
 
 {{ define "_invoice_show_col1" }}
 {{ $row := index . "row" }}
-  <input class="nice-i" type="text" name="{{ $row }}" value="{{ index $row "text" }}"/>
+{{ $index := index $row "index" }}
+<input class="nice-i" type="text" name="text_{{$index}}" value="{{ index $row "text" }}"/>
 {{ end }}
 
 {{ define "_invoice_show_col2" }}
-
 {{ $row := index . "row" }}
-  <input class="nice-i" type="text" name="{{ $row }}" value="{{ index $row "amount" }}"/>
+{{ $index := index $row "index" }}
+<input class="nice-i" type="text" name="amount_{{$index}}" value="{{ index $row "amount" }}"/>
 
 {{ end }}
 

@@ -46,13 +46,19 @@ func handleInvoiceShow(c *router.Context, guid string) {
 	headers := []string{"text", "amount"}
 
 	list := invoice["items"].([]any)
+	newList := []any{}
+	for i, item := range list {
+		thing := item.(map[string]any)
+		thing["index"] = i
+		newList = append(newList, thing)
+	}
 
 	params := map[string]any{}
 	params["item"] = invoice
 	params["editable"] = editable
 	params["regex_map"] = regexMap
 	m["headers"] = headers
-	m["cells"] = c.MakeCells(list, headers, params, "_invoice_show")
+	m["cells"] = c.MakeCells(newList, headers, params, "_invoice_show")
 	m["col_attributes"] = colAttributes
 	m["save"] = true
 	topVars := map[string]any{}
