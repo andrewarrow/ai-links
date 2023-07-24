@@ -1,0 +1,23 @@
+
+{{ define "_invoice_col1" }}
+{{ $row := index . "row" }}
+{{ index $row "client_id" }}
+{{ end }}
+
+{{ define "_invoice_col2" }}
+{{ $row := index . "row" }}
+{{ $json := index $row "items" }}
+{{ jq $json }}
+{{ end }}
+
+{{ define "_invoice_col3" }}
+{{ $row := index . "row" }}
+{{ index $row "total" }}
+{{ end }}
+
+{{ define "_invoice_col4" }}
+{{ $row := index . "row" }}
+{{ index $row "created_at_human" }}
+<br/>
+{{ index $row "created_at_ago" }}
+{{ end }}

@@ -31,7 +31,7 @@ func handleInvoiceIndex(c *router.Context) {
 	//colAttributes[0] = "w-1/2"
 
 	m := map[string]any{}
-	headers := []string{"name", "street", "city/state/zip", "created"}
+	headers := []string{"client", "items", "total", "created"}
 
 	params := map[string]any{}
 	m["headers"] = headers
