@@ -18,7 +18,15 @@ var logger zerolog.Logger
 
 func generatePdf(c *router.Context, invoice map[string]any) {
 	handler := pdfType.NewInvoice(&logger)
-	fmt.Println(handler)
+	i := pdfType.NewInvoice(&logger)
+	fmt.Println(i)
+	pdf, _ := handler.GeneratePDF()
+	var buffer bytes.Buffer
+	pdf.Output(&buffer)
+
+	contentType := "application/pdf"
+	c.Writer.Header().Set("Content-Type", contentType)
+	c.Writer.Write(buffer.Bytes())
 }
 
 func generatePdf2(c *router.Context, invoice map[string]any) {
