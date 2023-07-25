@@ -74,7 +74,7 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 		line["positionNumber"] = fmt.Sprintf("%d", i+1)
 		line["description"] = thing["text"]
 		line["singlePrice"] = 1000
-		line["quantity"] = 0
+		line["quantity"] = 1
 		line["taxRate"] = 0
 		line["unit"] = ""
 		line["currency"] = "$"
