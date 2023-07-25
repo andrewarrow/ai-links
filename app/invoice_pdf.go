@@ -29,6 +29,17 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	receiverAddress["fullForename"] = "Joe Smith"
 	receiverAddress["fullSurname"] = ""
 	receiverAddress["nameTitle"] = ""
+	address := map[string]string{}
+	address["road"] = "123"
+	address["zipCode"] = "123"
+	address["cityName"] = "123"
+	address["state"] = "123"
+	address["country"] = "123"
+	receiverAddress["address"] = address
+	invoiceMeta := m["invoiceMeta"].(map[string]any)
+	invoiceMeta["invoiceNumber"] = "1002"
+	invoiceMeta["invoiceDate"] = "1002"
+	invoiceMeta["customerNumber"] = "1002"
 
 	asBytes, _ := json.Marshal(m)
 	jsonString = string(asBytes)
