@@ -52,11 +52,36 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	address["country"] = country
 	receiverAddress["address"] = address
 	invoiceMeta := m["invoiceMeta"].(map[string]any)
-	invoiceMeta["invoiceNumber"] = "1002"
-	invoiceMeta["invoiceDate"] = "1002"
-	invoiceMeta["customerNumber"] = "1002"
-	//invoiceBody := m["InvoiceBody"].(map[string]any)
-	//items := invoiceBody["invoicedItems"].([]any)
+
+	clientGuid := client["guid"].(string)
+	number := invoice["number"].(int64)
+	updatedAt := invoice["updated_at"].(int64)
+	date := time.Unix(updatedAt, 0).Format(SMALL_DATE)
+	tokens := strings.Split(clientGuid, "-")
+	clientPrintId := strings.ToUpper(tokens[0])
+
+	invoiceMeta["invoiceNumber"] = fmt.Sprintf("%d", number)
+	invoiceMeta["invoiceDate"] = date
+	invoiceMeta["customerNumber"] = clientPrintId
+
+	newItems := []map[string]any{}
+	items := invoice["items"].([]any)
+	for i, item := range items {
+		thing := item.(map[string]any)
+		//text = Money(thing["amount"].(float64))
+
+		line := map[string]any{}
+		line["positionNumber"] = fmt.Sprintf("%d", i+1)
+		line["description"] = thing["text"]
+		line["singlePrice"] = 1000
+		line["quantity"] = 0
+		line["taxRate"] = 0
+		line["unit"] = ""
+		line["currency"] = "$"
+		newItems = append(newItems, line)
+	}
+	invoiceBody := m["InvoiceBody"].(map[string]any)
+	invoiceBody["invoicedItems"] = newItems
 
 	asBytes, _ := json.Marshal(m)
 	jsonString = string(asBytes)
