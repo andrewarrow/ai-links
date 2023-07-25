@@ -7,7 +7,7 @@ replace github.com/andrewarrow/BuisnessPDF => /Users/aa/os/SimpleInvoice
 go 1.19
 
 require (
-	github.com/andrewarrow/BuisnessPDF v0.0.0-20230725134549-8f72e46f952a
+	github.com/andrewarrow/BuisnessPDF v0.0.0-20230725145458-5d5dd802643d
 	github.com/andrewarrow/feedback v0.0.0-20230629214121-08868362ccbe
 	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/rs/zerolog v1.29.1

@@ -2,6 +2,7 @@ package app
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -21,6 +22,17 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	handler := pdfType.NewInvoice(&logger)
 	b, _ := ioutil.ReadFile("/Users/aa/os/SimpleInvoice/t.json")
 	jsonString := string(b)
+
+	var m map[string]any
+	json.Unmarshal([]byte(jsonString), &m)
+	receiverAddress := m["receiverAddress"].(map[string]any)
+	receiverAddress["fullForename"] = "Joe Smith"
+	receiverAddress["fullSurname"] = ""
+	receiverAddress["nameTitle"] = ""
+
+	asBytes, _ := json.Marshal(m)
+	jsonString = string(asBytes)
+
 	handler.SetDataFromJson(jsonString)
 	//i := pdfType.NewInvoice(&logger)
 	//fmt.Println(i)
