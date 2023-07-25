@@ -6,16 +6,25 @@ import (
 	"strings"
 	"time"
 
+	"github.com/andrewarrow/BuisnessPDF/pdfType"
 	"github.com/andrewarrow/feedback/router"
 	"github.com/jung-kurt/gofpdf"
+	"github.com/rs/zerolog"
 )
 
 const SMALL_DATE = "January 2, 2006"
 
+var logger zerolog.Logger
+
 func generatePdf(c *router.Context, invoice map[string]any) {
+	handler := pdfType.NewInvoice(&logger)
+	fmt.Println(handler)
+}
+
+func generatePdf2(c *router.Context, invoice map[string]any) {
+
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	pdf.AddPage()
-
 	//fontPath := "path/to/your/nice_font.ttf"
 	//pdf.AddFont("CustomFont", "", fontPath)
 	pdf.SetFont("helvetica", "", 10)
@@ -85,6 +94,7 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 		pdf.SetXY(initialX, initialY)
 		height += float64(i) * 1.5812
 	}
+	height += 2 * 1.5812
 
 	pdf.Line(20, height, 20+lineWidth, height+lineHeight)
 	total := invoice["total"].(int64)
