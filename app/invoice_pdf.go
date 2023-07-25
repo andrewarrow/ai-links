@@ -3,6 +3,7 @@ package app
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"strings"
 	"time"
 
@@ -18,6 +19,9 @@ var logger zerolog.Logger
 
 func generatePdf(c *router.Context, invoice map[string]any) {
 	handler := pdfType.NewInvoice(&logger)
+	b, _ := ioutil.ReadFile("/Users/aa/os/SimpleInvoice/t.json")
+	jsonString := string(b)
+	handler.SetDataFromJson(jsonString)
 	i := pdfType.NewInvoice(&logger)
 	fmt.Println(i)
 	pdf, _ := handler.GeneratePDF()
