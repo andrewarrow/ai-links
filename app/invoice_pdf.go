@@ -22,9 +22,10 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	b, _ := ioutil.ReadFile("/Users/aa/os/SimpleInvoice/t.json")
 	jsonString := string(b)
 	handler.SetDataFromJson(jsonString)
-	i := pdfType.NewInvoice(&logger)
-	fmt.Println(i)
-	pdf, _ := handler.GeneratePDF()
+	//i := pdfType.NewInvoice(&logger)
+	//fmt.Println(i)
+	pdf, err := handler.GeneratePDF()
+	fmt.Println(err)
 	var buffer bytes.Buffer
 	pdf.Output(&buffer)
 
