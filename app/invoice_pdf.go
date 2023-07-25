@@ -23,23 +23,40 @@ func generatePdf(c *router.Context, invoice map[string]any) {
 	b, _ := ioutil.ReadFile("/Users/aa/os/SimpleInvoice/t.json")
 	jsonString := string(b)
 
+	userId := invoice["user_id"]
+	clientId := invoice["client_id"]
+	header := c.One("template", "where flavor=$1 and user_id=$2", "header", userId)
+	headerText := header["text"].(string)
+
+	client := c.One("client", "where id=$1", clientId)
+	name := client["name"].(string)
+	street1 := client["street1"].(string)
+	city := client["city"].(string)
+	state := client["state"].(string)
+	zip := client["zip"].(string)
+	country := client["country"].(string)
+
 	var m map[string]any
 	json.Unmarshal([]byte(jsonString), &m)
+	senderAddress := m["senderAddress"].(map[string]any)
+	senderAddress["companyName"] = headerText
 	receiverAddress := m["receiverAddress"].(map[string]any)
-	receiverAddress["fullForename"] = "Joe Smith"
+	receiverAddress["fullForename"] = name
 	receiverAddress["fullSurname"] = ""
 	receiverAddress["nameTitle"] = ""
 	address := map[string]string{}
-	address["road"] = "123"
-	address["zipCode"] = "123"
-	address["cityName"] = "123"
-	address["state"] = "123"
-	address["country"] = "123"
+	address["road"] = street1
+	address["zipCode"] = zip
+	address["cityName"] = city
+	address["state"] = state
+	address["country"] = country
 	receiverAddress["address"] = address
 	invoiceMeta := m["invoiceMeta"].(map[string]any)
 	invoiceMeta["invoiceNumber"] = "1002"
 	invoiceMeta["invoiceDate"] = "1002"
 	invoiceMeta["customerNumber"] = "1002"
+	//invoiceBody := m["InvoiceBody"].(map[string]any)
+	//items := invoiceBody["invoicedItems"].([]any)
 
 	asBytes, _ := json.Marshal(m)
 	jsonString = string(asBytes)
