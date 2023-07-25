@@ -45,7 +45,7 @@ func main() {
 		r.Paths["sessions"] = app.HandleSessions
 		r.Paths["users"] = app.HandleUsers
 		r.Prefix = "sd"
-		r.ListenAndServe(":3000")
+		r.ListenAndServe(":3003")
 	} else if arg == "help" {
 	}
 
