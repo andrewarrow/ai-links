@@ -20,19 +20,24 @@ func handleFilePost(c *router.Context) {
 		http.Redirect(c.Writer, c.Request, "/", 302)
 		return
 	}
+	keyPath := ""
+	client, err := filestorage.NewClient(context.Background(),
+		option.WithCredentialsFile(keyPath))
+	client.BucketPath = c.Router.BucketPath
+
 	files := c.Request.MultipartForm.File["file"]
 
 	for _, fileHeader := range files {
 		name := fileHeader.Filename
 		file, _ := fileHeader.Open()
 		asBytes, _ := io.ReadAll(file)
-		filename := putFile(name, asBytes)
+		filename := putFile(client, name, asBytes)
 		fmt.Println(filename)
 	}
 	http.Redirect(c.Writer, c.Request, "/", 302)
 }
 
-func putFile(name string, data []byte) string {
+func putFile(client *filestorage.Client, name string, data []byte) string {
 	if !strings.Contains(name, ".") {
 		name = name + ".bin"
 	}
@@ -42,13 +47,9 @@ func putFile(name string, data []byte) string {
 	filename := guid + "." + ext
 
 	bucket := ""
-	keyPath := ""
-	client, err := filestorage.NewClient(context.Background(),
-		option.WithCredentialsFile(keyPath))
-
 	w := client.Bucket(bucket).Object(filename).NewWriter(context.Background())
 	w.ContentType = "application/octet-stream"
-	_, err = w.Write(data)
+	_, err := w.Write(data)
 	fmt.Println("write", err)
 	w.Close()
 	return filename
