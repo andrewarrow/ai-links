@@ -16,7 +16,5 @@ func HandleFiles(c *router.Context, second, third string) {
 
 func handleFileGet(c *router.Context) {
 	send := map[string]any{}
-	send["top"] = c.Template("files.html",
-		map[string]any{"": nil})
-	c.SendContentInLayout("generic_top_bottom.html", send, 200)
+	c.SendContentInLayout("files.html", send, 200)
 }
