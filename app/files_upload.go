@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/andrewarrow/feedback/filestorage"
 	"github.com/andrewarrow/feedback/router"
+	"github.com/andrewarrow/feedback/util"
 	"google.golang.org/api/option"
 )
 
@@ -24,13 +26,21 @@ func handleFilePost(c *router.Context) {
 		name := fileHeader.Filename
 		file, _ := fileHeader.Open()
 		asBytes, _ := io.ReadAll(file)
-		_ = name
-		_ = asBytes
+		filename := putFile(name, asBytes)
+		fmt.Println(filename)
 	}
 	http.Redirect(c.Writer, c.Request, "/", 302)
 }
 
-func foo(filename string, data []byte) {
+func putFile(name string, data []byte) string {
+	if !strings.Contains(name, ".") {
+		name = name + ".bin"
+	}
+	tokens := strings.Split(name, ".")
+	ext := tokens[len(tokens)-1]
+	guid := util.PseudoUuid()
+	filename := guid + "." + ext
+
 	bucket := ""
 	keyPath := ""
 	client, err := filestorage.NewClient(context.Background(),
@@ -41,4 +51,5 @@ func foo(filename string, data []byte) {
 	_, err = w.Write(data)
 	fmt.Println("write", err)
 	w.Close()
+	return filename
 }
