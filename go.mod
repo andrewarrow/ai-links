@@ -9,16 +9,18 @@ go 1.19
 require (
 	github.com/andrewarrow/BuisnessPDF v0.0.0-20230725145458-5d5dd802643d
 	github.com/andrewarrow/feedback v0.0.0-20230629214121-08868362ccbe
-	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/rs/zerolog v1.29.1
 	golang.org/x/crypto v0.8.0
 )
 
 require (
+	github.com/MicahParks/keyfunc/v2 v2.1.0 // indirect
 	github.com/brianvoe/gofakeit/v6 v6.20.1 // indirect
 	github.com/go-errors/errors v1.4.2 // indirect
+	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
 	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
+	github.com/jung-kurt/gofpdf v1.16.2 // indirect
 	github.com/lib/pq v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

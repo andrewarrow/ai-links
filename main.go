@@ -44,7 +44,9 @@ func main() {
 		r.Paths["templates"] = app.HandleTemplates
 		r.Paths["sessions"] = app.HandleSessions
 		r.Paths["users"] = app.HandleUsers
+		r.Paths["files"] = app.HandleFiles
 		r.Prefix = "sd"
+		r.BucketPath = "/Users/aa/bucket"
 		r.ListenAndServe(":3003")
 	} else if arg == "help" {
 	}
