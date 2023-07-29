@@ -24,6 +24,7 @@ func handleFilePost(c *router.Context) {
 	client, err := filestorage.NewClient(context.Background(),
 		option.WithCredentialsFile(keyPath))
 	client.BucketPath = c.Router.BucketPath
+	bucket := ""
 
 	files := c.Request.MultipartForm.File["file"]
 
@@ -31,13 +32,15 @@ func handleFilePost(c *router.Context) {
 		name := fileHeader.Filename
 		file, _ := fileHeader.Open()
 		asBytes, _ := io.ReadAll(file)
-		filename := putFile(client, name, asBytes)
-		fmt.Println(filename)
+		filename := putFile(client, bucket, name, asBytes)
+		//url := fmt.Sprintf("https://storage.googleapis.com/%s/%s", bucket, filename)
+		url := fmt.Sprintf("http://localhost:3000/bucket/%s", filename)
+		fmt.Println(url)
 	}
 	http.Redirect(c.Writer, c.Request, "/", 302)
 }
 
-func putFile(client *filestorage.Client, name string, data []byte) string {
+func putFile(client *filestorage.Client, bucket, name string, data []byte) string {
 	if !strings.Contains(name, ".") {
 		name = name + ".bin"
 	}
@@ -46,7 +49,6 @@ func putFile(client *filestorage.Client, name string, data []byte) string {
 	guid := util.PseudoUuid()
 	filename := guid + "." + ext
 
-	bucket := ""
 	w := client.Bucket(bucket).Object(filename).NewWriter(context.Background())
 	w.ContentType = "application/octet-stream"
 	_, err := w.Write(data)
