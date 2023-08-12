@@ -8,6 +8,13 @@
 
 {{ define "_dash_col2" }}
 {{ $row := index . "row" }}
+{{ $flavor := index $row "flavor" }}
+
+{{ if eq $flavor "month_total" }}
+
+        <div class="bg-green-500 text-white p-4">MONTH TOTAL</div>
+{{ else }}
+
 {{ $p := index . "params" }}
 {{ $short := index $row "short"}}
 {{ $clientMap := index $p "client_map"}}
@@ -16,6 +23,7 @@
 {{ index $client "short" }}
 <br/>
 {{ index $client "industry" }}
+{{ end }}
 {{ end }}
 
 {{ define "_dash_col3" }}
