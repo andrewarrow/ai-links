@@ -142,6 +142,10 @@
         {
           "name": "total",
           "flavor": "int"
+        },
+        {
+          "name": "hours",
+          "flavor": "int"
         }
       ]
     },

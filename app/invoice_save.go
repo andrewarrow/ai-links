@@ -11,7 +11,7 @@ import (
 func handleInvoiceSave(c *router.Context, guid string) {
 	invoice := c.One("invoice", "where guid=$1", guid)
 	list := invoice["items"].([]any)
-	params := []string{}
+	params := []string{""}
 	for i, _ := range list {
 		p := fmt.Sprintf("text_%d", i)
 		params = append(params, p)

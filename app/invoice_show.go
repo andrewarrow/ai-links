@@ -7,7 +7,7 @@ import (
 )
 
 func handleInvoiceShowPost(c *router.Context, guid string) {
-	c.ReadFormValuesIntoParams("submit")
+	c.ReadFormValuesIntoParams("submit", "hours")
 	submit := c.Params["submit"].(string)
 	if submit == "save" {
 		handleInvoiceSave(c, guid)
@@ -75,6 +75,7 @@ func handleInvoiceShow(c *router.Context, guid string) {
 	topVars := map[string]any{}
 	topVars["name"] = invoice["name"]
 	topVars["guid"] = guid
+	topVars["hours"] = invoice["hours"]
 	send := map[string]any{}
 	send["bottom"] = c.Template("table_show.html", m)
 	send["top"] = c.Template("invoices_top.html", topVars)
