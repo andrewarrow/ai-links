@@ -21,6 +21,8 @@
 {{ define "_dash_col3" }}
 {{ $row := index . "row" }}
 {{ $total := index $row "total" }}
+{{ index $row "hours" }}
+<br/>
 {{ price $total }}
 {{ end }}
 

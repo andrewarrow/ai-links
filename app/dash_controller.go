@@ -19,7 +19,7 @@ func HandleDash(c *router.Context, second, third string) {
 }
 
 func handleDashIndex(c *router.Context) {
-	sql := `SELECT client_id,                                                                              DATE_TRUNC('month', created_at) AS created_at,                                               SUM(total) AS total                                                          FROM                                                                                        invoices 
+	sql := `SELECT client_id, sum(hours) as hours,                                                                              DATE_TRUNC('month', created_at) AS created_at,                                               SUM(total) AS total                                                          FROM                                                                                        invoices 
 	    WHERE
          user_id=$1
 			GROUP BY                                                                                    client_id,                                                                              DATE_TRUNC('month', created_at)                                                     ORDER BY                                                                                    created_at desc, client_id;`
@@ -39,7 +39,7 @@ func handleDashIndex(c *router.Context) {
 	//colAttributes[0] = "w-1/2"
 
 	m := map[string]any{}
-	headers := []string{"date", "client_id / industry", "amount"}
+	headers := []string{"date", "client_id / industry", "hours / amount"}
 
 	params := map[string]any{}
 	params["client_map"] = clientMap
