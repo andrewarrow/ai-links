@@ -45,6 +45,7 @@ func main() {
 		r.Paths["sessions"] = app.HandleSessions
 		r.Paths["users"] = app.HandleUsers
 		r.Paths["files"] = app.HandleFiles
+		r.Paths["dash"] = app.HandleDash
 		r.Prefix = "sd"
 		r.BucketPath = "/Users/aa/bucket"
 		r.ListenAndServe(":3003")

@@ -88,6 +88,10 @@
           "flavor": "editable"
         },
         {
+          "name": "industry",
+          "flavor": "editable"
+        },
+        {
           "name": "country",
           "flavor": "editable"
         },
