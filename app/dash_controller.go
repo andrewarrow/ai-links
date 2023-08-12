@@ -42,13 +42,13 @@ func handleDashIndex(c *router.Context) {
 		total := item["total"].(int64)
 		month := monthTime.Unix()
 		monthMap[month] += total
-		newList = append(newList, item)
 		if lastMonth != month && lastMonth > 0 {
-			totalItem := map[string]any{"created_at": monthTime,
-				"total":  monthMap[month],
+			totalItem := map[string]any{"created_at": time.Unix(lastMonth, 0),
+				"total":  monthMap[lastMonth],
 				"flavor": "month_total"}
 			newList = append(newList, totalItem)
 		}
+		newList = append(newList, item)
 		lastMonth = month
 	}
 	totalItem := map[string]any{"created_at": time.Unix(lastMonth, 0),
