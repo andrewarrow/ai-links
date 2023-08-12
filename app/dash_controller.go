@@ -2,9 +2,9 @@ package app
 
 import (
 	"strings"
+	"time"
 
 	"github.com/andrewarrow/feedback/router"
-	"github.com/andrewarrow/feedback/util"
 )
 
 func HandleDash(c *router.Context, second, third string) {
@@ -34,6 +34,27 @@ func handleDashIndex(c *router.Context) {
 		tokens := strings.Split(v["guid"].(string), "-")
 		v["short"] = strings.ToUpper(tokens[0])
 	}
+	lastMonth := int64(0)
+	monthMap := map[int64]int64{}
+	newList := []any{}
+	for _, item := range list {
+		monthTime := item["created_at"].(time.Time)
+		total := item["total"].(int64)
+		month := monthTime.Unix()
+		monthMap[month] += total
+		newList = append(newList, item)
+		if lastMonth != month && lastMonth > 0 {
+			totalItem := map[string]any{"created_at": monthTime,
+				"total":  monthMap[month],
+				"flavor": "month_total"}
+			newList = append(newList, totalItem)
+		}
+		lastMonth = month
+	}
+	totalItem := map[string]any{"created_at": time.Unix(lastMonth, 0),
+		"total":  monthMap[lastMonth],
+		"flavor": "month_total"}
+	newList = append(newList, totalItem)
 
 	colAttributes := map[int]string{}
 	//colAttributes[0] = "w-1/2"
@@ -44,7 +65,7 @@ func handleDashIndex(c *router.Context) {
 	params := map[string]any{}
 	params["client_map"] = clientMap
 	m["headers"] = headers
-	m["cells"] = c.MakeCells(util.ToAnyArray(list), headers, params, "_dash")
+	m["cells"] = c.MakeCells(newList, headers, params, "_dash")
 	m["col_attributes"] = colAttributes
 
 	topVars := map[string]any{}
