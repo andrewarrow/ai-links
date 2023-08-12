@@ -1,9 +1,8 @@
 
 {{ define "_dash_col1" }}
 {{ $row := index . "row" }}
-{{ index $row "created_at_human" }}
-<br/>
-{{ index $row "created_at_ago" }}
+{{ $date := index $row "created_at" }}
+{{ substring $date 10 }}
 {{ end }}
 
 
@@ -14,9 +13,9 @@
 {{ $clientMap := index $p "client_map"}}
 {{ $id := index $row "client_id" }}
 {{ $client := index $clientMap $id }}
-{{ index $client "industry" }}
-<br/>
 {{ index $client "short" }}
+<br/>
+{{ index $client "industry" }}
 {{ end }}
 
 {{ define "_dash_col3" }}
