@@ -2,6 +2,8 @@ package main
 
 import (
 	"embed"
+	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"os"
 	"settle-down/app"
@@ -29,9 +31,15 @@ func main() {
 	}
 	arg := os.Args[1]
 
-	if arg == "reset" {
-		//r := router.NewRouter("DATABASE_URL")
-		//r.ResetDatabase()
+	if arg == "template" {
+		name := os.Args[2]
+		asBytes, _ := ioutil.ReadFile("t")
+		top := `{{ define "_%s" }}`
+		end := `{{ end }}`
+		s := fmt.Sprintf(top, name) + "\n" + string(asBytes) + "\n" + end
+		ioutil.WriteFile("views/_"+name+".html", []byte(s), 0644)
+		result := fmt.Sprintf(`{{ template "_%s" . }}`, name)
+		fmt.Printf("\n\n%s\n\n", result)
 	} else if arg == "run" {
 		router.BuildTag = buildTag
 		router.EmbeddedTemplates = embeddedTemplates
