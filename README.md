@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=rwtd9uLnh3M
 
 # more info
 
-https://many.pw/sd
+https://andrewarrow.dev
 
 Uses https://github.com/andrewarrow/BuisnessPDF which is a fork
 of https://github.com/TheFpiasta/BuisnessPDF.
